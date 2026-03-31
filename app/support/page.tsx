@@ -1,8 +1,6 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 type Card = {
   id: string;
@@ -56,7 +54,6 @@ const CARDS: Card[] = [
     ],
     cta: { label: "Groups & Counseling: 803-766-8067", href: "tel:8037668067" },
   },
-  
   {
     id: "healing-circles",
     title: "Peer Support Healing Circles",
@@ -116,83 +113,86 @@ const CARDS: Card[] = [
   },
 ];
 
+const cardLinkClassName =
+  "inline-flex items-center rounded-full border border-hive-blue px-4 py-2 text-sm font-semibold text-hive-blue transition hover:bg-hive-blue hover:text-white";
+
 export default function SupportPage() {
   return (
-    <main>
-      {/* HERO SECTION */}
-      <section
-  style={{
-    width: "100vw",
-    marginLeft: "calc(50% - 50vw)",
-    backgroundColor: "#1D979C",
-    color: "#FFFFFF",
-
-    // 🔑 THIS is the main fix
-    paddingTop: "7rem",
-    paddingBottom: "7rem",
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    fontFamily: "Proxima Nova, sans-serif",
-  }}
->
-        <div style={{ width: "100%", maxWidth: "980px" }}>
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "clamp(3rem, 5vw, 4.5rem)",
-              lineHeight: 1.05,
-              fontWeight: 700,
-            }}
-          >
+    <main className="bg-white text-gray-900">
+      <section className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#1D979C] px-6 py-28 text-center text-white">
+        <div className="mx-auto w-full max-w-5xl">
+          <h1 className="text-5xl font-bold leading-none md:text-6xl xl:text-7xl">
             Support Services
           </h1>
-
-          <p
-            style={{
-              margin: "1.5rem auto 0",
-              maxWidth: "760px",
-              fontSize: "clamp(1.1rem, 2vw, 1.6rem)",
-              lineHeight: 1.5,
-              color: "rgba(255,255,255,0.85)",
-            }}
-          >
-            Compassionate support and practical resources, here when you need them.
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-white/85 md:text-2xl">
+            Compassionate support and practical resources, here when you need
+            them.
           </p>
         </div>
       </section>
 
-      {/* CARDS */}
-      <section className="cards-area" aria-labelledby="services-heading">
-        <div className="container">
-          <h2 id="services-heading">Explore Support Options</h2>
+      <section
+        aria-labelledby="services-heading"
+        className="bg-white px-6 py-20 md:py-24"
+      >
+        <div className="mx-auto max-w-6xl">
+          <h2
+            id="services-heading"
+            className="text-3xl font-bold tracking-tight text-hive-blue md:text-4xl"
+          >
+            Explore Support Options
+          </h2>
 
-          <div className="grid">
-            {CARDS.map((c) => (
-              <article key={c.id} className="card" tabIndex={0}>
-                <div className="card-head">
-                  <h3 className="card-title">{c.title}</h3>
-                  {c.badge && <span className="badge">{c.badge}</span>}
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {CARDS.map((card) => (
+              <article
+                key={card.id}
+                tabIndex={0}
+                className="rounded-3xl border border-hive-blue/10 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-hive-blue/30"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-xl font-bold text-hive-blue">
+                    {card.title}
+                  </h3>
+                  {card.badge && (
+                    <span className="rounded-full bg-hive-yellow/25 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-hive-blue">
+                      {card.badge}
+                    </span>
+                  )}
                 </div>
 
-                {c.subtitle && <div className="card-sub">{c.subtitle}</div>}
-                <p className="card-summary">{c.summary}</p>
+                {card.subtitle && (
+                  <p className="mt-2 text-sm font-medium uppercase tracking-wide text-gray-500">
+                    {card.subtitle}
+                  </p>
+                )}
 
-                {c.details && (
-                  <ul className="card-list">
-                    {c.details.map((d, i) => (
-                      <li key={i}>{d}</li>
+                <p className="mt-4 text-base leading-7 text-gray-600">
+                  {card.summary}
+                </p>
+
+                {card.details && (
+                  <ul className="mt-5 space-y-2 text-sm leading-6 text-gray-700">
+                    {card.details.map((detail) => (
+                      <li key={detail} className="flex gap-2">
+                        <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-hive-orange" />
+                        <span>{detail}</span>
+                      </li>
                     ))}
                   </ul>
                 )}
 
-                {c.cta && (
-                  <div className="card-cta">
-                    <a href={c.cta.href ?? "#"} className="btn btn-ghost">
-                      {c.cta.label}
-                    </a>
+                {card.cta && (
+                  <div className="mt-6">
+                    {card.cta.href?.startsWith("/") ? (
+                      <Link href={card.cta.href} className={cardLinkClassName}>
+                        {card.cta.label}
+                      </Link>
+                    ) : (
+                      <a href={card.cta.href ?? "#"} className={cardLinkClassName}>
+                        {card.cta.label}
+                      </a>
+                    )}
                   </div>
                 )}
               </article>
@@ -201,159 +201,29 @@ export default function SupportPage() {
         </div>
       </section>
 
+      <section className="bg-hive-blue/5 px-6 py-24 text-center">
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-8">
+          <h2 className="text-3xl font-bold text-hive-blue md:text-5xl">
+            Emotional Safety Plan Resource
+          </h2>
 
-      <section className="py-24 px-6 bg-hive-blue/5 text-center">
-  <div className="max-w-3xl mx-auto flex flex-col items-center gap-8">
-
-    <h2 className="text-3xl md:text-5xl font-bold text-hive-blue">
-      Emotional Safety Plan Resource
-    </h2>
-
-    <a
-      href="https://www.thehivecc.org/_files/ugd/8a8511_175f07e5966d4276b783f3ce90ea902f.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block bg-hive-yellow text-gray-900 font-bold px-12 py-5 rounded-full text-xl hover:bg-yellow-400 transition"
-    >
-      Click Here
-    </a>
-
-    <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
-      If you need help filling out this form or creating a plan that meets your needs,
-      you can always contact The Hive. One of our advocates can assist you — you don’t
-      have to go through this alone.
-    </p>
-
-  </div>
-</section>
-
-      <footer
-        style={{
-          backgroundColor: "#1D979C",
-          color: "#FFFFFF",
-          padding: "4rem 1.5rem 2rem",
-          fontFamily: "Proxima Nova, sans-serif",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: "2.5rem",
-              alignItems: "start",
-            }}
+          <a
+            href="https://www.thehivecc.org/_files/ugd/8a8511_175f07e5966d4276b783f3ce90ea902f.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-full bg-hive-yellow px-12 py-5 text-xl font-bold text-gray-900 transition hover:bg-yellow-400"
           >
-            <div>
-              <h3
-                style={{
-                  marginBottom: "1rem",
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                }}
-              >
-                Quick Links
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                <a href="/about" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-                  About Us
-                </a>
-                <a href="/awareness" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-                  Awareness
-                </a>
-                <a href="/support" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-                  Support
-                </a>
-                <a href="/contact" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-                  Contact
-                </a>
-                <a href="/updates" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-                  Keep Updated
-                </a>
-              </div>
-            </div>
+            Click Here
+          </a>
 
-
-            <div>
-              <h3
-                style={{
-                  marginBottom: "1rem",
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                }}
-              >
-                Contact
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                <p style={{ margin: 0 }}>
-                  <strong>Email:</strong> hello@thehivecc.org
-                </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Phone:</strong> (803) 888-7725
-                </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Address:</strong> 4704 Colonial Drive Columbia, SC
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h3
-                style={{
-                  marginBottom: "1rem",
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                }}
-              >
-                Support Our Mission
-              </h3>
-
-              <a
-                href="/donations"
-                style={{
-                  display: "inline-block",
-                  marginTop: "0.5rem",
-                  backgroundColor: "#F3C506",
-                  color: "#1D979C",
-                  textDecoration: "none",
-                  padding: "0.75rem 1.25rem",
-                  borderRadius: "999px",
-                  fontWeight: 700,
-                }}
-              >
-                Donation Link
-              </a>
-            </div>
-          </div>
-
-          <div
-            style={{
-              height: "1px",
-              backgroundColor: "rgba(255,255,255,0.7)",
-              margin: "3rem 0 1.5rem",
-            }}
-          />
-
-          <p
-            style={{
-              textAlign: "center",
-              margin: 0,
-              color: "#FFFFFF",
-              fontSize: "1rem",
-            }}
-          >
-            © 2026 The Hive
+          <p className="text-lg leading-8 text-gray-600 md:text-xl">
+            If you need help filling out this form or creating a plan that meets
+            your needs, you can always contact The Hive. One of our advocates
+            can assist you. You do not have to go through this alone.
           </p>
         </div>
-      </footer>
+      </section>
+
     </main>
   );
 }
